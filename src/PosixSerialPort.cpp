@@ -65,17 +65,12 @@ PosixSerialPort::open(int baud,
 {
     struct termios options;
     speed_t speed;
-    // Try opening port assuming _name is full path. If it fails
-    // try "/dev/" + _name
-    _devfd = ::open(_name.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
+    std::string dev("/dev/");
+
+    dev += _name;
+    _devfd = ::open(dev.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
     if (_devfd == -1)
-    {
-        std::string dev("/dev/");
-        dev += _name;
-        _devfd = ::open(dev.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
-        if (_devfd == -1)
-            return false;
-    }
+        return false;
 
     if (tcgetattr(_devfd, &options) == -1)
     {

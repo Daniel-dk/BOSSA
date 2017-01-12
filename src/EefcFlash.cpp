@@ -76,6 +76,7 @@ EefcFlash::EefcFlash(Samba& samba,
     assert(lockRegions <= 32);
 
     // SAM3 Errata (FWS must be 6)
+	// SAM4 Errata (120MHZ FWS must be 5)
     _samba.writeWord(EEFC0_FMR, 0x6 << 8);
     if (planes == 2)
         _samba.writeWord(EEFC1_FMR, 0x6 << 8);

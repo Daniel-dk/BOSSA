@@ -3,7 +3,7 @@
 #
 # Version
 #
-VERSION=1.7.0
+VERSION=1.6.1-arduino
 WXVERSION=3.0
 
 #
@@ -133,14 +133,6 @@ WXVERSION=2.8
 
 endif
 
-ifeq (${OS},FreeBSD)
-
-# This is only needed for bossash, but we can't add it to BOSSASH_LIBS here
-# because that one is redefined later.
-COMMON_SRCS+=PosixSerialPort.cpp BSDPortFactory.cpp
-
-endif
-
 #
 # Object files
 #
@@ -166,7 +158,7 @@ DEPENDS+=$(BOSSASH_SRCS:%.cpp=$(OBJDIR)/%.d)
 # Tools
 #
 #Q=@
-CXX?=g++
+CXX=g++
 ARM=arm-none-eabi-
 ARMAS=$(ARM)as
 ARMOBJCOPY=$(ARM)objcopy
@@ -175,7 +167,7 @@ ARMOBJCOPY=$(ARM)objcopy
 # CXX Flags
 #
 # COMMON_CXXFLAGS+=-Wall -Werror -MT $@ -MD -MP -MF $(@:%.o=%.d) -DVERSION=\"$(VERSION)\" -g -O2
-COMMON_CXXFLAGS+=-Wall -MT $@ -MD -MP -MF $(@:%.o=%.d) -DVERSION=\"$(VERSION)\" -g -O2 $(CXXFLAGS)
+COMMON_CXXFLAGS+=-Wall -MT $@ -MD -MP -MF $(@:%.o=%.d) -DVERSION=\"$(VERSION)\" -g -O2
 WX_CXXFLAGS:=$(shell wx-config --cxxflags --version=$(WXVERSION)) -DWX_PRECOMP -Wno-ctor-dtor-privacy -O2 -fno-strict-aliasing
 BOSSA_CXXFLAGS=$(COMMON_CXXFLAGS) $(WX_CXXFLAGS)
 BOSSAC_CXXFLAGS=$(COMMON_CXXFLAGS)
@@ -184,7 +176,7 @@ BOSSASH_CXXFLAGS=$(COMMON_CXXFLAGS)
 #
 # LD Flags
 #
-COMMON_LDFLAGS+=-g $(LDFLAGS)
+COMMON_LDFLAGS+=-g
 BOSSA_LDFLAGS=$(COMMON_LDFLAGS)
 BOSSAC_LDFLAGS=$(COMMON_LDFLAGS)
 BOSSASH_LDFLAGS=$(COMMON_LDFLAGS)
